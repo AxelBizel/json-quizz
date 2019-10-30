@@ -7,30 +7,30 @@ class DisplayAnswers extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      wrongMovies: []
+    //   wrongMovies: []
     };
   }
 
-  componentDidMount() {
-    this.getWrongMovies();
-  }
+//   componentDidMount() {
+//     this.getWrongMovies();
+//   }
 
-  getWrongMovies = () => {
-    axios
-      .get("https://hackathon-wild-hackoween.herokuapp.com/movies")
-      .then(response => response.data)
-      .then(data => {
-        const wrongMoviesArray = [];
-        wrongMoviesArray.push(
-          data.movies[randomOf(82)],
-          data.movies[randomOf(82)],
-          data.movies[randomOf(82)]
-        );
-        this.setState({
-          wrongMovies: wrongMoviesArray
-        });
-      });
-  };
+//   getWrongMovies = () => {
+//     axios
+//       .get("https://hackathon-wild-hackoween.herokuapp.com/movies")
+//       .then(response => response.data)
+//       .then(data => {
+//         const wrongMoviesArray = [];
+//         wrongMoviesArray.push(
+//           data.movies[randomOf(82)],
+//           data.movies[randomOf(82)],
+//           data.movies[randomOf(82)]
+//         );
+//         this.setState({
+//           wrongMovies: wrongMoviesArray
+//         });
+//       });
+//   };
   genAnswers = (movie) => {
     const type = this.props.questionsObject.type;
     if (type === "title") {
@@ -43,7 +43,7 @@ class DisplayAnswers extends Component {
   };
 
   render() {
-    if (this.state.wrongMovies.length === 0) {
+    if (this.props.wrongMovies.length === 0) {
       return <div></div>;
     }
     return (
@@ -56,19 +56,19 @@ class DisplayAnswers extends Component {
           </Col>
           <Col xs="6">
             <Button outline color="warning" size="lg">
-              {this.genAnswers(this.state.wrongMovies[0])}
+              {this.genAnswers(this.props.wrongMovies[0])}
             </Button>
           </Col>
         </Row>
         <Row>
           <Col xs="6">
             <Button outline color="success" size="lg">
-              {this.genAnswers(this.state.wrongMovies[1])}
+              {this.genAnswers(this.props.wrongMovies[1])}
             </Button>
           </Col>
           <Col xs="6">
             <Button outline color="danger" size="lg">
-              {this.genAnswers(this.state.wrongMovies[2])}
+              {this.genAnswers(this.props.wrongMovies[2])}
             </Button>
           </Col>
         </Row>
