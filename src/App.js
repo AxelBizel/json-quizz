@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import Answer from "./components/Answer.js";
+import AnswerScreen from "./components/AnswerScreen";
 import { randomOf } from "./components/helpers";
 import GetQuestions from "./components/GetQuestions";
 import DisplayAnswers from "./components/DisplayAnswers";
@@ -20,6 +20,8 @@ class App extends Component {
       answer: true,
       showModal: true, 
       count: 0,
+      displayQuestion: false,
+      displayAnswer: false,
     };
     console.log(this.state.showModal)  
   }
@@ -30,6 +32,14 @@ class App extends Component {
 
   startGame = () => {
     this.setState({showModal: false})
+  }
+
+  goToQuestion = () => {
+    this.setState({displayQuestion: true})
+  }
+
+  goToAnswer = () => {
+    this.setState({displayAnswer: true})
   }
   
   getMovie = () => {
@@ -84,11 +94,10 @@ class App extends Component {
         <GetQuestions
           questionsObject={this.state.questionsObject}
         />
-        <DisplayAnswers movie={this.state.movie}
-          questionsObject={this.state.questionsObject}/>
+        {this.state.displayQuestion && <DisplayAnswers movie={this.state.movie} questionsObject={this.state.questionsObject}/>}
         <Countdown date={Date.now() + 11000} intervalDelay={0} precision={3} renderer={renderer} />
         <Count addPoints ={this.addPoints} count={this.state.count}/>
-        <Answer movie={this.state.movie} answer={this.state.answer}/>
+        {this.state.displayQuestion && <AnswerScreen movie={this.state.movie} answer={this.state.answer} goToQuestion={this.goToQuestion} displayQuestion={this.state.displayQuestion}/>}
         <Start show={this.state.showModal} startGame={this.startGame} />
       </div>
     );
