@@ -1,17 +1,18 @@
 import React, { Component } from "react";
 import { Container, Row, Col, Button } from "reactstrap";
+import { shuffle } from "./helpers"
 
 class QuestionScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      //   wrongMovies: []
+      answers:[]
     };
   }
 
-  //   componentDidMount() {
-  //     this.getWrongMovies();
-  //   }
+    componentDidMount() {
+      this.genAnswersArray();
+    }
 
   //   getWrongMovies = () => {
   //     axios
@@ -40,10 +41,23 @@ class QuestionScreen extends Component {
     }
   };
 
+  genAnswersArray = ()=> {
+    const answersArray = [];
+    answersArray.push(
+      this.genAnswers(this.props.movie),
+      this.genAnswers(this.props.wrongMovies[0]),
+      this.genAnswers(this.props.wrongMovies[1]),
+      this.genAnswers(this.props.wrongMovies[2])
+    );
+    const answersShuffled = shuffle(answersArray);
+     this.setState({answers:answersShuffled})
+    console.log(answersArray)
+  }
+
   render() {
-    // if (this.props.wrongMovies.length === 0) {
-    //   return <div></div>;
-    // }
+    if (this.state.answers.length === 0) {
+      return (<div></div>)
+    }
     return (
       <div>
         <div> <p id="counter">- {this.props.seconds} -</p></div>
@@ -54,24 +68,24 @@ class QuestionScreen extends Component {
           <Row>
             <Col xs="6">
               <Button outline color="primary" size="lg">
-                {this.genAnswers(this.props.movie)}
+                {this.state.answers[0]}
               </Button>
             </Col>
             <Col xs="6">
               <Button outline color="warning" size="lg">
-                {this.genAnswers(this.props.wrongMovies[0])}
+                {this.state.answers[1]}
               </Button>
             </Col>
           </Row>
           <Row>
             <Col xs="6">
               <Button outline color="success" size="lg">
-                {this.genAnswers(this.props.wrongMovies[1])}
+                {this.state.answers[2]}
               </Button>
             </Col>
             <Col xs="6">
               <Button outline color="danger" size="lg">
-                {this.genAnswers(this.props.wrongMovies[2])}
+                {this.state.answers[3]}
               </Button>
             </Col>
           </Row>

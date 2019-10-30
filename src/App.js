@@ -21,7 +21,7 @@ class App extends Component {
       displayAnswer: false,
       wrongMovies: [],
       seconds: 10,
-      answerClicked: false,
+      answerClicked: false
     };
     console.log(this.state.displayQuestion);
     console.log(this.state.displayAnswer);
@@ -32,35 +32,35 @@ class App extends Component {
   }
 
   startGame = () => {
-    this.setState({showModal: false});
+    this.setState({ showModal: false });
     this.interval = setInterval(() => this.tick(), 1000);
     this.goToQuestion();
-  }
+  };
 
   goToQuestion = () => {
-    this.setState({displayQuestion: true});
-  }
+    this.setState({ displayQuestion: true });
+  };
 
   // goToAnswer = () => {
   //   this.setState({displayAnswer: true});
   // }
 
   tick = () => {
-		let { seconds, answerClicked } = this.state; 
-		this.setState({ seconds: seconds - 1 });
+    let { seconds, answerClicked } = this.state;
+    this.setState({ seconds: seconds - 1 });
 
-		if (seconds === 0) {
+    if (seconds === 0) {
       this.setState({ seconds: 0 });
-      this.setState({displayAnswer: true});
-      this.setState({displayQuestion: false});
+      this.setState({ displayAnswer: true });
+      this.setState({ displayQuestion: false });
       clearInterval(this.interval);
     }
-    
+
     if (answerClicked === true) {
       this.goToQuestion();
-		}
-	};
-  
+    }
+  };
+
   getMovie = () => {
     axios
       .get("https://hackathon-wild-hackoween.herokuapp.com/movies")
@@ -120,10 +120,24 @@ class App extends Component {
     }
     return (
       <div className="App">
-        <Start show={this.state.showModal} startGame={this.startGame} />
-        {this.state.displayQuestion && <QuestionScreen seconds={this.state.seconds} movie={this.state.movie} questionsObject={this.state.questionsObject}  wrongMovies={this.state.wrongMovies}/>}
-        <Count addPoints ={this.addPoints} count={this.state.count}/>
-        {this.state.displayAnswer && <AnswerScreen movie={this.state.movie} answer={this.state.answer} goToQuestion={this.goToQuestion} displayQuestion={this.state.displayQuestion}/>}
+        {/* <Start show={this.state.showModal} startGame={this.startGame} /> */}
+        {this.state.displayQuestion && (
+          <QuestionScreen
+            seconds={this.state.seconds}
+            movie={this.state.movie}
+            questionsObject={this.state.questionsObject}
+            wrongMovies={this.state.wrongMovies}
+          />
+        )}
+        <Count addPoints={this.addPoints} count={this.state.count} />
+        {this.state.displayAnswer && (
+          <AnswerScreen
+            movie={this.state.movie}
+            answer={this.state.answer}
+            goToQuestion={this.goToQuestion}
+            displayQuestion={this.state.displayQuestion}
+          />
+        )}
         <Start show={this.state.showModal} startGame={this.startGame} />
       </div>
     );
