@@ -13,16 +13,19 @@ const movieInfoStyle = {
 }
 
 
-function Answer({movie}) {
+function Answer({movie, answer}) {
     return (
-        <div className="DisplayMovie" style={displayMovieStyle}>
-            <div className="MovieInfo" style={movieInfoStyle}>
-                <p>Title: {movie.title}</p>
-                <p>Director: {movie.director}</p>
-                <p>Year: {movie.year}</p>
-                <p>Country: {movie.country}</p>
+        <div>
+            <div>{answer ? <h1>YOU GOT IT!</h1> : <h1>SORRY, THE ANSWER WAS</h1>}</div>
+            <div className="DisplayMovie" style={displayMovieStyle}>
+                    <div className="MovieInfo" style={movieInfoStyle}>
+                        <p>Title: {movie.title}</p>
+                        <p>Director: {movie.director}</p>
+                        <p>Year: {movie.year}</p>
+                        <p>Country: {movie.country}</p>
+                    </div>
+                <div className="MoviePoster"><img src={movie.posterUrl} alt="MoviePoster"/></div>
             </div>
-            <div className="MoviePoster"><img src={movie.posterUrl} alt="MoviePoster"/></div>
         </div>
     )
 }

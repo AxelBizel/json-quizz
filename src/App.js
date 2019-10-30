@@ -1,10 +1,15 @@
 import React, { Component } from "react";
 import axios from "axios";
-import "./App.css";
 import Answer from "./components/Answer.js";
 import { randomOf } from "./components/helpers";
 import GetQuestions from "./components/GetQuestions";
 import DisplayAnswers from "./components/DisplayAnswers";
+import Countdown from 'react-countdown-now';
+import renderer from './components/timer'
+import './components/timer.css'
+import './index'
+import Start from './components/Start.js';
+import Count from './components/Count.js';
 
 class App extends Component {
   constructor(props) {
@@ -12,14 +17,21 @@ class App extends Component {
     this.state = {
       movie: {},
       questionsObject: {},
-      answer: true
+      answer: true,
+      showModal: true, 
+      count: 0,
     };
+    console.log(this.state.showModal)  
   }
 
   componentDidMount() {
     this.getMovie();
   }
 
+  startGame = () => {
+    this.setState({showModal: false})
+  }
+  
   getMovie = () => {
     axios
       .get("https://hackathon-wild-hackoween.herokuapp.com/movies")
@@ -58,9 +70,13 @@ class App extends Component {
     ];
 
     return questionsObject[Math.floor(questionsObject.length * Math.random())];
-    // console.log(randomQuestion);
-    // this.setState({ movies: movie, question: randomQuestion });
   };
+
+  addPoints = () => {
+    if (this.state.answer === true) {
+      this.setState({count: this.state.count + 1});
+    }
+  }
 
   render() {
     return (
@@ -70,7 +86,10 @@ class App extends Component {
         />
         <DisplayAnswers movie={this.state.movie}
           questionsObject={this.state.questionsObject}/>
-        <Answer movie={this.state.movie} />
+        <Countdown date={Date.now() + 11000} intervalDelay={0} precision={3} renderer={renderer} />
+        <Count addPoints ={this.addPoints} count={this.state.count}/>
+        <Answer movie={this.state.movie} answer={this.state.answer}/>
+        <Start show={this.state.showModal} startGame={this.startGame} />
       </div>
     );
   }
