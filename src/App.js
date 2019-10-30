@@ -1,15 +1,14 @@
 import React, { Component } from "react";
 import axios from "axios";
-import AnswerScreen from "./components/AnswerScreen";
+import AnswerScreen from "./components/AnswerScreen.js";
 import { randomOf } from "./components/helpers";
-import GetQuestions from "./components/GetQuestions";
-import DisplayAnswers from "./components/DisplayAnswers";
-import Countdown from 'react-countdown-now';
-import renderer from './components/timer'
-import './components/timer.css'
-import './index'
-import Start from './components/Start.js';
-import Count from './components/Count.js';
+import Countdown from "react-countdown-now";
+import renderer from "./components/timer";
+import "./components/timer.css";
+import "./index";
+import Start from "./components/Start.js";
+import Count from "./components/Count.js";
+import QuestionScreen from "./components/QuestionScreen";
 
 class App extends Component {
   constructor(props) {
@@ -18,12 +17,13 @@ class App extends Component {
       movie: {},
       questionsObject: {},
       answer: true,
-      showModal: true, 
+      showModal: true,
       count: 0,
       displayQuestion: false,
       displayAnswer: false,
+      wrongMovies: []
     };
-    console.log(this.state.showModal)  
+    console.log(this.state.showModal);
   }
 
   componentDidMount() {
@@ -48,9 +48,16 @@ class App extends Component {
       .then(response => {
         const selectedMovie =
           response.data.movies[randomOf(response.data.movies.length)];
+        const wrongMoviesArray = [];
+        wrongMoviesArray.push(
+          response.data.movies[randomOf(response.data.movies.length)],
+          response.data.movies[randomOf(response.data.movies.length)],
+          response.data.movies[randomOf(response.data.movies.length)]
+        );
         this.setState({
           movie: selectedMovie,
-          questionsObject: this.getQuestion(selectedMovie)
+          questionsObject: this.getQuestion(selectedMovie),
+          wrongMovies: wrongMoviesArray
         });
       });
   };
@@ -84,17 +91,18 @@ class App extends Component {
 
   addPoints = () => {
     if (this.state.answer === true) {
-      this.setState({count: this.state.count + 1});
+      this.setState({ count: this.state.count + 1 });
     }
-  }
+  };
 
   render() {
+    if (this.state.wrongMovies.length === 0) {
+      return <div></div>;
+    }
     return (
       <div className="App">
-        <GetQuestions
-          questionsObject={this.state.questionsObject}
-        />
-        {this.state.displayQuestion && <DisplayAnswers movie={this.state.movie} questionsObject={this.state.questionsObject}/>}
+        <Start show={this.state.showModal} startGame={this.startGame} />
+        {this.state.displayQuestion && <QuestionScreen movie={this.state.movie} questionsObject={this.state.questionsObject}  wrongMovies={this.state.wrongMovies}/>}
         <Countdown date={Date.now() + 11000} intervalDelay={0} precision={3} renderer={renderer} />
         <Count addPoints ={this.addPoints} count={this.state.count}/>
         {this.state.displayQuestion && <AnswerScreen movie={this.state.movie} answer={this.state.answer} goToQuestion={this.goToQuestion} displayQuestion={this.state.displayQuestion}/>}
