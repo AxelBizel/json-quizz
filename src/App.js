@@ -4,6 +4,7 @@ import './App.css';
 import Answer from './components/Answer.js';
 import { randomOf } from './components/helpers';
 import GetQuestions from './components/GetQuestions';
+import Start from './components/Start.js';
 
 
 class App extends Component {
@@ -12,13 +13,20 @@ class App extends Component {
     this.state = {
       movies: "",
       answer: true,
+      showModal: true,  
+        
     };
+    console.log(this.state.showModal)  
   }
 
   componentDidMount() {
     this.getMovie();
   }
 
+  startGame = () => {
+    this.setState({showModal: false})
+  }
+  
   getMovie = () => {
     axios
       .get("https://hackathon-wild-hackoween.herokuapp.com/movies")
@@ -36,6 +44,7 @@ class App extends Component {
       <div className="App">
         <GetQuestions movie={this.state.movies} />
         <Answer movies={this.state.movies}/>
+        <Start className="modal" show={this.state.showModal} startGame={this.startGame}/>
       </div>
     );
   }
