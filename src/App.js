@@ -121,21 +121,6 @@ class App extends Component {
     return (
       <div className="App">
         {/* <Start show={this.state.showModal} startGame={this.startGame} /> */}
-        <QuestionScreen
-          movie={this.state.movie}
-          questionsObject={this.state.questionsObject}
-          // genAnswers={this.genAnswers()}
-          wrongMovies={this.state.wrongMovies}
-        />
-        <Countdown
-          date={Date.now() + 11000}
-          intervalDelay={0}
-          precision={3}
-          renderer={renderer}
-        />
-        <Count addPoints={this.addPoints} count={this.state.count} />
-        <AnswerScreen movie={this.state.movie} answer={this.state.answer} />
-        <Start show={this.state.showModal} startGame={this.startGame} />
         {this.state.displayQuestion && (
           <QuestionScreen
             seconds={this.state.seconds}
