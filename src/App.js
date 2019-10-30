@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import axios from "axios";
 import AnswerScreen from "./components/AnswerScreen.js";
 import { randomOf } from "./components/helpers";
-import Countdown from "react-countdown-now";
-import renderer from "./components/timer";
 import "./components/timer.css";
 import "./index";
 import Start from "./components/Start.js";
@@ -21,9 +19,12 @@ class App extends Component {
       count: 0,
       displayQuestion: false,
       displayAnswer: false,
-      wrongMovies: []
+      wrongMovies: [],
+      seconds: 10,
+      answerClicked: false,
     };
-    console.log(this.state.showModal);
+    console.log(this.state.displayQuestion);
+    console.log(this.state.displayAnswer);
   }
 
   componentDidMount() {
@@ -31,16 +32,34 @@ class App extends Component {
   }
 
   startGame = () => {
-    this.setState({showModal: false})
+    this.setState({showModal: false});
+    this.interval = setInterval(() => this.tick(), 1000);
+    this.goToQuestion();
   }
 
   goToQuestion = () => {
-    this.setState({displayQuestion: true})
+    this.setState({displayQuestion: true});
   }
 
-  goToAnswer = () => {
-    this.setState({displayAnswer: true})
-  }
+  // goToAnswer = () => {
+  //   this.setState({displayAnswer: true});
+  // }
+
+  tick = () => {
+		let { seconds, answerClicked } = this.state; 
+		this.setState({ seconds: seconds - 1 });
+
+		if (seconds === 0) {
+      this.setState({ seconds: 0 });
+      this.setState({displayAnswer: true});
+      this.setState({displayQuestion: false});
+      clearInterval(this.interval);
+    }
+    
+    if (answerClicked === true) {
+      this.goToQuestion();
+		}
+	};
   
   getMovie = () => {
     axios
@@ -102,10 +121,9 @@ class App extends Component {
     return (
       <div className="App">
         <Start show={this.state.showModal} startGame={this.startGame} />
-        {this.state.displayQuestion && <QuestionScreen movie={this.state.movie} questionsObject={this.state.questionsObject}  wrongMovies={this.state.wrongMovies}/>}
-        <Countdown date={Date.now() + 11000} intervalDelay={0} precision={3} renderer={renderer} />
+        {this.state.displayQuestion && <QuestionScreen seconds={this.state.seconds} movie={this.state.movie} questionsObject={this.state.questionsObject}  wrongMovies={this.state.wrongMovies}/>}
         <Count addPoints ={this.addPoints} count={this.state.count}/>
-        {this.state.displayQuestion && <AnswerScreen movie={this.state.movie} answer={this.state.answer} goToQuestion={this.goToQuestion} displayQuestion={this.state.displayQuestion}/>}
+        {this.state.displayAnswer && <AnswerScreen movie={this.state.movie} answer={this.state.answer} goToQuestion={this.goToQuestion} displayQuestion={this.state.displayQuestion}/>}
         <Start show={this.state.showModal} startGame={this.startGame} />
       </div>
     );
