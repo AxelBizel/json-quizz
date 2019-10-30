@@ -42,8 +42,8 @@ class App extends Component {
     return (
       <div className="App">
         <GetQuestions movie={this.state.movies} />
-        <Answer movies={this.state.movies}/>
-        <Start show={this.state.showModal} startGame={this.startGame}/>
+        <Answer movies={this.state.movies} answer={this.state.answer}/>
+        <Start show={this.state.showModal} startGame={this.startGame} />
       </div>
     );
   }
