@@ -6,6 +6,8 @@ import { randomOf } from './components/helpers';
 import GetQuestions from './components/GetQuestions';
 import Start from './components/Start.js';
 import Count from './components/Count.js';
+import { BrowserRouter } from "react-router-dom";
+import { Switch, Route, Link } from "react-router-dom";
 
 class App extends Component {
   constructor(props) {
