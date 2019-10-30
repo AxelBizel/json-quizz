@@ -1,6 +1,5 @@
 #counter {
     display: flex;
     justify-content: center;
-    border: 1px solid red;
-    font-size: 5em;
+    font-size: 6em;
 }
