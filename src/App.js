@@ -37,9 +37,9 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <Countdown date={Date.now() + 10000} intervalDelay={0} precision={3} renderer={renderer} />
         <GetQuestions movie={this.state.movies} />
         <Answer movies={this.state.movies}/>
-        <Countdown date={Date.now() + 10000} intervalDelay={0} precision={3} renderer={renderer} />
       </div>
     );
   }
