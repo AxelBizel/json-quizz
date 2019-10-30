@@ -7,10 +7,22 @@ function GetQuestions({ movie }) {
     //     height: "400px",
     //     // maxWidth: "200px"
 
+  const questions = [
+    `Qui est le réalisateur du film ${movie.title} ?`,
+    `Quel film a été réalisé par ${movie.director} ?`,
+    `En quelle année le film ${movie.title} est-il sorti ?`,
+    `Quel film a été réalisé en ${movie.year} ?`,
+    `Quel film a été tourné dans ce pays : ${movie.country} ?`,
+  ]
+
+  const randomQuestion = questions[Math.floor(questions.length * Math.random())];
+ 
+
+
+
   return (
     <div className="DisplayQuestion">
-      <p>Qui est le réalisateur du film ?</p>
-      {/* <p>`Qui est le réalisateur du film ${movie.title}?`</p> */}
+      <div>{randomQuestion}</div>
     </div>
   );
 };
