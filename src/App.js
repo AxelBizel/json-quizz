@@ -1,15 +1,14 @@
 import React, { Component } from "react";
 import axios from "axios";
-import Answer from "./components/Answer.js";
+import AnswerScreen from "./components/AnswerScreen.js";
 import { randomOf } from "./components/helpers";
-import GetQuestions from "./components/GetQuestions";
-import DisplayAnswers from "./components/DisplayAnswers";
 import Countdown from "react-countdown-now";
 import renderer from "./components/timer";
 import "./components/timer.css";
 import "./index";
 import Start from "./components/Start.js";
 import Count from "./components/Count.js";
+import QuestionScreen from "./components/QuestionScreen";
 
 class App extends Component {
   constructor(props) {
@@ -43,7 +42,7 @@ class App extends Component {
         wrongMoviesArray.push(
           response.data.movies[randomOf(response.data.movies.length)],
           response.data.movies[randomOf(response.data.movies.length)],
-          response.data.movies[randomOf(response.data.movies.length)],
+          response.data.movies[randomOf(response.data.movies.length)]
         );
         this.setState({
           movie: selectedMovie,
@@ -52,7 +51,6 @@ class App extends Component {
         });
       });
   };
-
 
   getQuestion = movie => {
     const questionsObject = [
@@ -81,7 +79,6 @@ class App extends Component {
     return questionsObject[Math.floor(questionsObject.length * Math.random())];
   };
 
-
   addPoints = () => {
     if (this.state.answer === true) {
       this.setState({ count: this.state.count + 1 });
@@ -94,8 +91,8 @@ class App extends Component {
     }
     return (
       <div className="App">
-        <GetQuestions questionsObject={this.state.questionsObject} />
-        <DisplayAnswers
+        <Start show={this.state.showModal} startGame={this.startGame} />
+        <QuestionScreen
           movie={this.state.movie}
           questionsObject={this.state.questionsObject}
           // genAnswers={this.genAnswers()}
@@ -108,8 +105,7 @@ class App extends Component {
           renderer={renderer}
         />
         <Count addPoints={this.addPoints} count={this.state.count} />
-        <Answer movie={this.state.movie} answer={this.state.answer} />
-        <Start show={this.state.showModal} startGame={this.startGame} />
+        <AnswerScreen movie={this.state.movie} answer={this.state.answer} />
       </div>
     );
   }
