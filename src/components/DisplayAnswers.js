@@ -6,28 +6,16 @@ class DisplayAnswers extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        answer:null
     };
   }
-
-    getAnswers(){
-        axios.get(`https://hackathon-wild-hackoween.herokuapp.com/movies`)
-      .then(res => {
-        const moviesData = res.movies[0];
-        this.setState({ answer:moviesData });
-    });
-}
-
-
-
 
   render() {
     return (
       <Container>
         <Row>
           <Col xs="6">
-            <Button outline color="primary" size="lg" onClick={this.getAnswers}>
-              {this.state.answer}
+            <Button outline color="primary" size="lg">
+              {this.props.movie}
             </Button>
           </Col>
           <Col xs="6">
