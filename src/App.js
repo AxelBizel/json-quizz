@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import './App.css';
 import Answer from './components/Answer.js';
 import { randomOf } from './components/helpers';
 import GetQuestions from './components/GetQuestions';
+import Countdown from 'react-countdown-now';
+import renderer from './components/timer'
+import './components/timer.css'
+import './index'
 import Start from './components/Start.js';
 import Count from './components/Count.js';
 import { BrowserRouter } from "react-router-dom";
@@ -50,6 +53,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <Countdown date={Date.now() + 10000} intervalDelay={0} precision={3} renderer={renderer} />
         <Count addPoints ={this.addPoints} count={this.state.count}/>
         <GetQuestions movie={this.state.movies} />
         <Answer movies={this.state.movies} answer={this.state.answer}/>
@@ -60,5 +64,3 @@ class App extends Component {
 }
 
 export default App;
-
-

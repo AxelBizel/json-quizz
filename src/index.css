@@ -11,3 +11,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.DisplayQuestion {
+  text-align: center;
+  background-color: black;
+  text-shadow:0 0 2px #FF0000,0 0 10px #FF0000, 0 0 120px #FF0000;
+  color:#FF0000;
+  font-size: 3em;
+}

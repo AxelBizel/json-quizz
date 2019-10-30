@@ -1,5 +1,7 @@
 import React, { Component } from "react";
+import Jason from '../img/60578.jpg'
 import "./start.css";
+import "../index"
 
 class Start extends Component {
 	constructor(props) {
@@ -22,20 +24,11 @@ class Start extends Component {
 		return (
         <div className="modal" style={this.props.show ? showStyleMain: hideStyleMain}>
 			<div className="modal-wrapper">
-				<div className="modal-header">
-					<h3>TEXT</h3>
-				</div>
-				<div className="modal-body">
-					<p>
-					JSON's Quiz
-					{this.props.children}
-					</p>
-				</div>
-				<div>
-					<div className='center'>
-					<button onClick={this.props.startGame}>PLAY</button>
-					</div>
-				</div>
+				<img src={Jason}></img>
+			<div class="textmodal">
+				<p>JSON's Quiz</p>
+				<button onClick={this.props.startGame}>LET'S PLAY</button>
+			</div>
 			</div>
 		</div>
         );
