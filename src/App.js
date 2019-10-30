@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import './App.css';
 import Answer from './components/Answer.js';
 
@@ -7,7 +8,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      movies = null,
+      movies: "",
     };
   }
 
@@ -20,8 +21,9 @@ class App extends Component {
       .get("https://hackathon-wild-hackoween.herokuapp.com/movies")
       .then(response => response.data)
       .then(data => {
+        console.log(data)
         this.setState({
-          movie: data
+          movies: data.movies[0]
         });
       });
   };
@@ -29,7 +31,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Answer />
+        <Answer movies={this.state.movies}/>
       </div>
     );
   }
