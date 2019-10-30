@@ -12,8 +12,14 @@ const movieInfoStyle = {
     marginTop: "100px",
 }
 
+const btnStyle = {
+    float: "right",
+    margin: "120px",
+    padding: "20px",
+}
 
-function Answer({movie, answer}) {
+
+function AnswerScreen({movie, answer, goToQuestion}) {
     return (
         <div>
             <div>{answer ? <h1>YOU GOT IT!</h1> : <h1>SORRY, THE ANSWER WAS</h1>}</div>
@@ -26,10 +32,11 @@ function Answer({movie, answer}) {
                     </div>
                 <div className="MoviePoster"><img src={movie.posterUrl} alt="MoviePoster"/></div>
             </div>
+            <button style={btnStyle} onClick={goToQuestion}>NEXT</button>
         </div>
     )
 }
 
 
 
-export default Answer;
+export default AnswerScreen;

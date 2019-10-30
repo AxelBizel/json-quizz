@@ -46,10 +46,10 @@ class QuestionScreen extends Component {
     // }
     return (
       <div>
+        <div> <p id="counter">- {this.props.seconds} -</p></div>
         <div className="DisplayQuestion">
           {this.props.questionsObject.question}
         </div>
-
         <Container>
           <Row>
             <Col xs="6">
