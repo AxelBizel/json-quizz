@@ -13,8 +13,7 @@ class App extends Component {
     this.state = {
       movies: "",
       answer: true,
-      showModal: true,  
-        
+      showModal: true, 
     };
     console.log(this.state.showModal)  
   }
@@ -44,7 +43,7 @@ class App extends Component {
       <div className="App">
         <GetQuestions movie={this.state.movies} />
         <Answer movies={this.state.movies}/>
-        <Start className="modal" show={this.state.showModal} startGame={this.startGame}/>
+        <Start show={this.state.showModal} startGame={this.startGame}/>
       </div>
     );
   }

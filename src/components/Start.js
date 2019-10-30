@@ -9,7 +9,6 @@ class Start extends Component {
     }
 
     render() {
-
 		const showStyleMain = {
 			transform: 'translateY(0vh)',
 			display: 'block',
@@ -24,7 +23,7 @@ class Start extends Component {
         <div className="modal" style={this.props.show ? showStyleMain: hideStyleMain}>
 			<div className="modal-wrapper">
 				<div className="modal-header">
-					{this.props.start ? <h3> </h3> : <h3>PAUSE</h3>}
+					<h3>TEXT</h3>
 				</div>
 				<div className="modal-body">
 					<p>
