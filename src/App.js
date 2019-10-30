@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import './App.css';
 import Answer from './components/Answer.js';
 import { randomOf } from './components/helpers';
 import GetQuestions from './components/GetQuestions';
 import Countdown from 'react-countdown-now';
 import renderer from './components/timer'
 import './components/timer.css'
+import './index'
+import Start from './components/Start.js';
 
 
 class App extends Component {
@@ -15,13 +16,19 @@ class App extends Component {
     this.state = {
       movies: "",
       answer: true,
+      showModal: true, 
     };
+    console.log(this.state.showModal)  
   }
 
   componentDidMount() {
     this.getMovie();
   }
 
+  startGame = () => {
+    this.setState({showModal: false})
+  }
+  
   getMovie = () => {
     axios
       .get("https://hackathon-wild-hackoween.herokuapp.com/movies")
@@ -40,6 +47,7 @@ class App extends Component {
         <Countdown date={Date.now() + 10000} intervalDelay={0} precision={3} renderer={renderer} />
         <GetQuestions movie={this.state.movies} />
         <Answer movies={this.state.movies}/>
+        <Start show={this.state.showModal} startGame={this.startGame}/>
       </div>
     );
   }
