@@ -9,8 +9,6 @@ import './components/timer.css'
 import './index'
 import Start from './components/Start.js';
 import Count from './components/Count.js';
-import { BrowserRouter } from "react-router-dom";
-import { Switch, Route, Link } from "react-router-dom";
 
 class App extends Component {
   constructor(props) {
@@ -53,7 +51,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Countdown date={Date.now() + 10000} intervalDelay={0} precision={3} renderer={renderer} />
+        <Countdown date={Date.now() + 11000} intervalDelay={0} precision={3} renderer={renderer} />
         <Count addPoints ={this.addPoints} count={this.state.count}/>
         <GetQuestions movie={this.state.movies} />
         <Answer movies={this.state.movies} answer={this.state.answer}/>
