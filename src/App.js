@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import './App.css';
 import Answer from './components/Answer.js';
+import { randomOf } from './components/helpers';
+import GetQuestions from './components/GetQuestions';
 
 
 class App extends Component {
@@ -24,7 +26,7 @@ class App extends Component {
       .then(data => {
         console.log(data)
         this.setState({
-          movies: data.movies[0]
+          movies: data.movies[randomOf(82)]
         });
       });
   };
@@ -32,6 +34,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <GetQuestions movie={this.state.movies} />
         <Answer movies={this.state.movies}/>
       </div>
     );
@@ -39,3 +42,5 @@ class App extends Component {
 }
 
 export default App;
+
+
