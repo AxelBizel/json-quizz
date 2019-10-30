@@ -1,41 +1,41 @@
-import React from 'react';
+import React, { Component } from 'react';
 import axios from 'axios';
 import './App.css';
+import Answer from './components/Answer.js';
+import { randomOf } from './components/helpers';
 import GetQuestions from './components/GetQuestions';
-import { randomOf } from './components/helpers'
 
 
-class App extends React.Component {
+class App extends Component {
   constructor(props) {
-      super(props);
-      this.state = {
-        movies: "",
-      }
+    super(props);
+    this.state = {
+      movies: "",
+      answer: true,
+    };
   }
 
   componentDidMount() {
-    this.getQuestions()
+    this.getMovie();
   }
 
-  getQuestions = () => {
-    // Send the request
-    axios.get('https://hackathon-wild-hackoween.herokuapp.com/movies')
-      // Extract the DATA from the received response
+  getMovie = () => {
+    axios
+      .get("https://hackathon-wild-hackoween.herokuapp.com/movies")
       .then(response => response.data)
-      // Use this data to update the state
-      .then(data =>{
+      .then(data => {
+        console.log(data)
         this.setState({
-          movies: data.movies[randomOf(82)],
-        }); 
-    });
-  }
+          movies: data.movies[randomOf(82)]
+        });
+      });
+  };
 
   render() {
     return (
       <div className="App">
         <GetQuestions movie={this.state.movies} />
-        <button type="button" onClick={this.getQuestions}>Get question</button>
-
+        <Answer movies={this.state.movies}/>
       </div>
     );
   }
