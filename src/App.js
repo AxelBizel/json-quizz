@@ -21,7 +21,6 @@ class App extends Component {
       count: 0,
       wrongMovies: []
     };
-    console.log(this.state.showModal);
   }
 
   componentDidMount() {
@@ -91,7 +90,7 @@ class App extends Component {
     }
     return (
       <div className="App">
-        <Start show={this.state.showModal} startGame={this.startGame} />
+        {/* <Start show={this.state.showModal} startGame={this.startGame} /> */}
         <QuestionScreen
           movie={this.state.movie}
           questionsObject={this.state.questionsObject}
