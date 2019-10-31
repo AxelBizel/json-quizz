@@ -130,8 +130,8 @@ class App extends Component {
       return movie.year;
     } else if (type === "director") {
       return movie.director;
-    } else if (type === "director") {
-      return movie.director;
+    } else if (type === "country") {
+      return movie.country;
     }
   };
 
