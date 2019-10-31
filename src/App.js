@@ -38,7 +38,8 @@ class App extends Component {
       showModal: false,
       seconds: 10,
       displayQuestion: true,
-      displayAnswer: false
+      displayAnswer: false,
+      answer: false
     });
     this.interval = setInterval(() => this.tick(), 1000);
     this.getMovie();
