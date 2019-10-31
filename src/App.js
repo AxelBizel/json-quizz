@@ -123,6 +123,7 @@ class App extends Component {
   returnAnswer = (x) => {
       console.log("answer=",this.state.questionsObject.answer, "x=",x)
       this.setState({
+        answerClicked: true,
         returnedAnswer: x,
         answer: (this.state.questionsObject.answer === x)
       });
@@ -149,7 +150,7 @@ class App extends Component {
             movie={this.state.movie}
             questionsObject={this.state.questionsObject}
             wrongMovies={this.state.wrongMovies}
-            returnedAnswer={this.returnAnswer}
+            returnAnswer={this.returnAnswer}
             trueOrFalse={this.trueOrFalse}
           />
         )}

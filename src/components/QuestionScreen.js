@@ -69,24 +69,24 @@ class QuestionScreen extends Component {
         <Container>
           <Row>
             <Col xs="6">
-              <Button outline color="primary" size="lg" onClick={() => this.props.returnedAnswer(this.state.answers[0])}> 
+              <Button outline color="primary" size="lg" onClick={() => this.props.returnAnswer(this.state.answers[0])}> 
                 {this.state.answers[0]}
               </Button>
             </Col>
             <Col xs="6">
-              <Button outline color="warning" size="lg" onClick={() => this.props.returnedAnswer(this.state.answers[1])}>
+              <Button outline color="warning" size="lg" onClick={() => this.props.returnAnswer(this.state.answers[1])}>
                 {this.state.answers[1]}
               </Button>
             </Col>
           </Row>
           <Row>
             <Col xs="6">
-              <Button outline color="success" size="lg" onClick={() => this.props.returnedAnswer(this.state.answers[2])}>
+              <Button outline color="success" size="lg" onClick={() => this.props.returnAnswer(this.state.answers[2])}>
                 {this.state.answers[2]}
               </Button>
             </Col>
             <Col xs="6">
-              <Button outline color="danger" size="lg" onClick={() => this.props.returnedAnswer(this.state.answers[3])}>
+              <Button outline color="danger" size="lg" onClick={() => this.props.returnAnswer(this.state.answers[3])}>
                 {this.state.answers[3]}
               </Button>
             </Col>
