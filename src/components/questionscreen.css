@@ -1,3 +1,8 @@
+@font-face {
+    font-family: "friday";
+    src: url('../font/Friday13v12.ttf')
+}
+
 #questionscreen {
     display: flex;
     flex-direction: column;

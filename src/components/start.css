@@ -1,8 +1,3 @@
-@font-face {
-  font-family: "Friday";
-  src: url('/src/font/Friday13v12.ttf') format('truetype');
-}
-
 .modal-wrapper {
   height: 100vh;
   display: flex;
