@@ -7,6 +7,7 @@ import Start from "./components/Start.js";
 import Count from "./components/Count.js";
 import "./components/timer.css";
 import "./index";
+import EndModal from "./components/EndModal.js";
 
 class App extends Component {
   constructor(props) {
@@ -16,18 +17,20 @@ class App extends Component {
       questionsObject: {},
       answer: false,
       answerClicked: false,
+      answerClickedCount: 0,
       answers: [],
       showModal: true,
       count: 0,
-      displayQuestion: false,
-      displayAnswer: false,
+      displayQuestion: true,
+      displayAnswer: true,
       wrongMovies: [],
-      seconds: 10
+      seconds: 10,
+      showModalEnd: false,
     };
   }
 
   componentDidMount() {
-    this.startGame();
+    this.getMovie();
   }
 
   startGame = () => {
@@ -35,11 +38,20 @@ class App extends Component {
       showModal: false,
       seconds: 10,
       displayQuestion: true,
-      displayAnswer: false
+      displayAnswer: false,
+      answer: false
     });
     this.interval = setInterval(() => this.tick(), 1000);
     this.getMovie();
   };
+
+  hideModal = () => {
+    this.setState({showModal: false});
+  }
+
+  startTimer = () => {
+    this.interval = setInterval(() => this.tick(), 1000);
+  }
 
   tick = () => {
     let { seconds, answerClicked } = this.state;
@@ -60,6 +72,7 @@ class App extends Component {
         displayQuestion: false,
         answerClicked:false
       });
+      this.addPoints();
       clearInterval(this.interval);
     }
   };
@@ -133,12 +146,26 @@ class App extends Component {
     }
   };
 
+  showModalEnd = () => {
+    if (this.state.answerClickedCount=== 20) {
+      this.setState({
+        showModalEnd: true,
+        displayAnswer: false,
+        displayQuestion: false,
+      })
+      console.log(this.state.showModalEnd)
+    }
+  }
+
   returnAnswer = x => {
     this.setState({
       answerClicked: true,
       returnedAnswer: x,
-      answer: this.state.questionsObject.answer === x
+      answer: this.state.questionsObject.answer === x,
+      answerClickedCount: this.state.answerClickedCount +1,
+      
     });
+    console.log(this.state.answerClickedCount)
   };
 
   genAnswers = (movie, questionsObject) => {
@@ -172,6 +199,7 @@ class App extends Component {
     return (
       <div className="App">
         <Start show={this.state.showModal} startGame={this.startGame} />
+        <Count addPoints ={this.addPoints} count={this.state.count} />
         {this.state.displayQuestion && (
           <QuestionScreen
             seconds={this.state.seconds}
@@ -182,17 +210,19 @@ class App extends Component {
             returnAnswer={this.returnAnswer}
           />
         )}
-        <Count addPoints={this.addPoints} count={this.state.count} />
         {this.state.displayAnswer && (
           <AnswerScreen
             startGame={this.startGame}
             movie={this.state.movie}
             answer={this.state.answer}
             displayQuestion={this.state.displayQuestion}
+            rightAnswer= {this.state.questionsObject.answer}
+            startTimer={this.startTimer}
+            getMovie={this.getMovie}
+            showModalEnd={this.showModalEnd}
           />
         )}
-
-        <Start show={this.state.showModal} startGame={this.startGame} />
+        {this.state.showModalEnd && (<EndModal count={this.state.count} />)}
       </div>
     );
   }

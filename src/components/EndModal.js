@@ -3,7 +3,7 @@ import Jason from '../img/60578.jpg'
 import "./start.css";
 import "../index"
 
-class Start extends Component {
+class EndModal extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -26,8 +26,9 @@ class Start extends Component {
 			<div className="modal-wrapper">
 				<img src={Jason}></img>
 			<div class="textmodal">
-				<p>JSON's Quiz</p>
-				<button id="buttonstart" onClick={this.props.startGame}>LET'S PLAY</button>
+				<p>You scored</p>
+                <p>{this.props.count}/20</p>
+				<button onClick={() => {this.props.startGame(); this.props.startTimer(); this.props.hideModal()}}>BACK TO START</button>
 			</div>
 			</div>
 		</div>
@@ -35,4 +36,4 @@ class Start extends Component {
     }
 }
 
-export default Start;
+export default EndModal;
