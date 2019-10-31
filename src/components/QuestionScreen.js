@@ -50,6 +50,7 @@ class QuestionScreen extends Component {
         <div className="DisplayQuestion">
           {this.props.questionsObject.question}
         </div>
+
         <Container>
           <Row>
             <Col xs="6">

@@ -20,7 +20,7 @@ class App extends Component {
       displayQuestion: false,
       displayAnswer: false,
       wrongMovies: [],
-      seconds: 10,
+      seconds: 3,
       answerClicked: false,
     };
     console.log(this.state.displayQuestion);
@@ -33,13 +33,18 @@ class App extends Component {
 
   startGame = () => {
     this.setState({showModal: false});
+    this.setState({seconds: 3})
     this.interval = setInterval(() => this.tick(), 1000);
-    this.goToQuestion();
+    this.setState({displayQuestion: true});
+    this.setState({displayAnswer: false});
+    this.getMovie();
   }
 
-  goToQuestion = () => {
-    this.setState({displayQuestion: true});
-  }
+  // goToQuestion = () => {
+  //   this.setState({displayQuestion: true});
+  //   this.setState({displayAnswer: false});
+  //   this.getMovie();
+  // }
 
   // goToAnswer = () => {
   //   this.setState({displayAnswer: true});
@@ -84,25 +89,30 @@ class App extends Component {
   getQuestion = movie => {
     const questionsObject = [
       {
-        question: `Qui est le réalisateur du film ${movie.title} ?`,
+        question: `Who directed the movie ${movie.title}?`,
         type: "director"
       },
       {
-        question: `Quel film a été réalisé par ${movie.director} ?`,
+        question: `Which movie was directed by ${movie.director}?`,
         type: "title"
       },
       {
-        question: `En quelle année le film ${movie.title} est-il sorti ?`,
+        question: `Which year was the movie ${movie.title} released?`,
         type: "year"
       },
       {
-        question: `Quel film a été réalisé en ${movie.year} ?`,
+        question: `Which movie was made in ${movie.year}?`,
         type: "title"
       },
       {
-        question: `Quel film a été tourné dans ce pays : ${movie.country} ?`,
+        question: `What movie was made in ${movie.country}?`,
         type: "title"
+      },
+      {
+        question: `What is the country of origin of the movie ${movie.title}?`,
+        type: "country"
       }
+
     ];
 
     return questionsObject[Math.floor(questionsObject.length * Math.random())];
@@ -123,7 +133,7 @@ class App extends Component {
         <Start show={this.state.showModal} startGame={this.startGame} />
         {this.state.displayQuestion && <QuestionScreen seconds={this.state.seconds} movie={this.state.movie} questionsObject={this.state.questionsObject}  wrongMovies={this.state.wrongMovies}/>}
         <Count addPoints ={this.addPoints} count={this.state.count}/>
-        {this.state.displayAnswer && <AnswerScreen movie={this.state.movie} answer={this.state.answer} goToQuestion={this.goToQuestion} displayQuestion={this.state.displayQuestion}/>}
+        {this.state.displayAnswer && <AnswerScreen startGame={this.startGame} movie={this.state.movie} answer={this.state.answer} goToQuestion={this.goToQuestion} displayQuestion={this.state.displayQuestion}/>}
         <Start show={this.state.showModal} startGame={this.startGame} />
       </div>
     );

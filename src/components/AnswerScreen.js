@@ -19,7 +19,7 @@ const btnStyle = {
 }
 
 
-function AnswerScreen({movie, answer, goToQuestion}) {
+function AnswerScreen({movie, answer, startGame}) {
     return (
         <div>
             <div>{answer ? <h1>YOU GOT IT!</h1> : <h1>SORRY, THE ANSWER WAS</h1>}</div>
@@ -32,7 +32,7 @@ function AnswerScreen({movie, answer, goToQuestion}) {
                     </div>
                 <div className="MoviePoster"><img src={movie.posterUrl} alt="MoviePoster"/></div>
             </div>
-            <button style={btnStyle} onClick={goToQuestion}>NEXT</button>
+            <button style={btnStyle} onClick={() => startGame()}>NEXT</button>
         </div>
     )
 }
