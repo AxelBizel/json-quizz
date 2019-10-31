@@ -17,8 +17,8 @@ class App extends Component {
       answer: true,
       showModal: true,
       count: 0,
-      displayQuestion: false,
-      displayAnswer: false,
+      displayQuestion: true,
+      displayAnswer: true,
       wrongMovies: [],
       seconds: 10,
       answerClicked: false
@@ -33,7 +33,7 @@ class App extends Component {
 
   startGame = () => {
     this.setState({showModal: false});
-    this.setState({seconds: 10})
+    this.setState({seconds: 1 0})
     this.interval = setInterval(() => this.tick(), 1000);
     this.setState({displayQuestion: true});
     this.setState({displayAnswer: false});
@@ -131,15 +131,16 @@ class App extends Component {
     return (
       <div className="App">
         <Start show={this.state.showModal} startGame={this.startGame} />
+        <Count addPoints ={this.addPoints} count={this.state.count} />
         {this.state.displayQuestion && (
           <QuestionScreen 
+          addPoints={this.addPoints}
           seconds={this.state.seconds} 
           movie={this.state.movie} 
           questionsObject={this.state.questionsObject}  
           wrongMovies={this.state.wrongMovies}
          />
         )}
-        <Count addPoints ={this.addPoints} count={this.state.count} />
         {this.state.displayAnswer && (
           <AnswerScreen
             startGame={this.startGame} 

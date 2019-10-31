@@ -1,7 +1,14 @@
 import React, { Component } from "react";
 import { Container, Row, Col, Button } from "reactstrap";
 import { shuffle } from "./helpers"
+import './questionscreen.css'
+import Count from "./Count";
 
+const btnStyle = {
+  float: "right",
+  margin: "120px",
+  padding: "20px",
+}
 class QuestionScreen extends Component {
   constructor(props) {
     super(props);
@@ -30,6 +37,7 @@ class QuestionScreen extends Component {
   //         });
   //       });
   //   };
+
   genAnswers = movie => {
     const type = this.props.questionsObject.type;
     if (type === "title") {
@@ -41,7 +49,7 @@ class QuestionScreen extends Component {
     }
   };
 
-  genAnswersArray = ()=> {
+  genAnswersArray = () => {
     const answersArray = [];
     answersArray.push(
       this.genAnswers(this.props.movie),
@@ -59,38 +67,17 @@ class QuestionScreen extends Component {
       return (<div></div>)
     }
     return (
-      <div>
-        <div> <p id="counter">- {this.props.seconds} -</p></div>
+      <div id="questionscreen">
+        <div id="counter">- {this.props.seconds} -</div>
         <div className="DisplayQuestion">
           {this.props.questionsObject.question}
         </div>
-
-        <Container>
-          <Row>
-            <Col xs="6">
-              <Button outline color="primary" size="lg">
-                {this.state.answers[0]}
-              </Button>
-            </Col>
-            <Col xs="6">
-              <Button outline color="warning" size="lg">
-                {this.state.answers[1]}
-              </Button>
-            </Col>
-          </Row>
-          <Row>
-            <Col xs="6">
-              <Button outline color="success" size="lg">
-                {this.state.answers[2]}
-              </Button>
-            </Col>
-            <Col xs="6">
-              <Button outline color="danger" size="lg">
-                {this.state.answers[3]}
-              </Button>
-            </Col>
-          </Row>
-        </Container>
+        <div id="buttonsA">
+          <button id="buttonsanswers" onClick={() => this.props.addPoints()}>{this.state.answers[0]}</button>
+          <button id="buttonsanswers" onClick={() => this.props.addPoints()}>{this.state.answers[1]}</button>
+          <button id="buttonsanswers" onClick={() => this.props.addPoints()}>{this.state.answers[2]}</button>
+          <button id="buttonsanswers" onClick={() => this.props.addPoints()}>{this.state.answers[3]}</button>
+        </div>
       </div>
     );
   }

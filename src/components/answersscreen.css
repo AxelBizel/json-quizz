@@ -1,0 +1,43 @@
+#answerscreen {
+    display: flex;
+    flex-direction: column;
+    background-color: black;
+    height: 100vh;
+    background-image: url('../img/BG.jpg');
+    background-size: cover;
+}
+
+#congrat {
+    display: flex;
+    justify-content: center;
+    text-shadow:0 0 2px #FF0000,0 0 10px #FF0000, 0 0 120px #FF0000;
+    color:#FF0000;
+}
+
+.DisplayMovie {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-shadow:0 0 2px #FF0000,0 0 10px #FF0000, 0 0 120px #FF0000;
+    color:#FF0000;
+    margin: 40px 0;
+    text-align: right;
+}
+
+.MovieInfo, .MoviePoster {
+    margin: 0 20px;
+    font-size: 2em;
+}
+
+#buttonnext {
+    border-radius: 20px;
+    font-weight: bold;
+    background: rgba(0, 0, 0, 0.699);
+    text-shadow:0 0 10px #FF0000,0 0 10px #FF0000, 0 0 120px #FF0000;
+    color:#FF0000;
+    font-size: 2.3em;
+    border: 1px solid rgba(255, 0, 0, 0.329);
+    margin: 40px 40px;
+    height: 100px;
+}
+

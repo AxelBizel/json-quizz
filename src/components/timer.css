@@ -1,8 +1,8 @@
 #counter {
-    display: flex;
-    justify-content: center;
-    font-size: 6em;
-    background-color: black;
+  display: flex;
+  justify-content: center;
+  font-size: 6em;
+  background: rgba(0, 0, 0, 0.281);
   text-shadow:0 0 2px #FF0000,0 0 10px #FF0000, 0 0 120px #FF0000;
   color:#FF0000;
 }

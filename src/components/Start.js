@@ -27,7 +27,7 @@ class Start extends Component {
 				<img src={Jason}></img>
 			<div class="textmodal">
 				<p>JSON's Quiz</p>
-				<button onClick={this.props.startGame}>LET'S PLAY</button>
+				<button id="buttonstart" onClick={this.props.startGame}>LET'S PLAY</button>
 			</div>
 			</div>
 		</div>
