@@ -21,8 +21,8 @@ class App extends Component {
       answers: [],
       showModal: true,
       count: 0,
-      displayQuestion: false,
-      displayAnswer: false,
+      displayQuestion: true,
+      displayAnswer: true,
       wrongMovies: [],
       seconds: 10,
       showModalEnd: false,
@@ -198,6 +198,7 @@ class App extends Component {
     return (
       <div className="App">
         <Start show={this.state.showModal} startGame={this.startGame} />
+        <Count addPoints ={this.addPoints} count={this.state.count} />
         {this.state.displayQuestion && (
           <QuestionScreen
             seconds={this.state.seconds}
@@ -208,7 +209,6 @@ class App extends Component {
             returnAnswer={this.returnAnswer}
           />
         )}
-        <Count addPoints={this.addPoints} count={this.state.count} />
         {this.state.displayAnswer && (
           <AnswerScreen
             startGame={this.startGame}
@@ -221,8 +221,6 @@ class App extends Component {
             showModalEnd={this.showModalEnd}
           />
         )}
-
-        <Start show={this.state.showModal} startGame={this.startGame} />
         {this.state.showModalEnd && (<EndModal count={this.state.count} />)}
       </div>
     );
