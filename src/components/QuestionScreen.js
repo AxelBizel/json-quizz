@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { Container, Row, Col, Button } from "reactstrap";
-import { shuffle } from "./helpers"
+import { replace } from './helpers';
 import './questionscreen.css'
 
 const btnStyle = {
@@ -14,68 +13,33 @@ class QuestionScreen extends Component {
     this.state = {};
   }
 
+      
   render() {
+    const questionAPI = this.props.questionsObject.question;
+    const questionDisplay = replace(questionAPI);
+    const answer0API = this.props.answers[0]
+    const answer0Display = replace(answer0API);
+    const answer1API = this.props.answers[1]
+    const answer1Display = replace(answer1API);
+    const answer2API = this.props.answers[2]
+    const answer2Display = replace(answer2API);
+    const answer3API = this.props.answers[3]
+    const answer3Display = replace(answer3API);
+
     return (
       <div id="questionscreen">
         <div id="counter">- {this.props.seconds} -</div>
         <div className="DisplayQuestion">
-          {this.props.questionsObject.question}
+          {questionDisplay}
         </div>
+
         <div id="buttonsA">
-          <button id="buttonsanswers" onClick={() => this.props.returnAnswer(this.props.answers[0])}>{this.props.answers[0]}</button>
-          <button id="buttonsanswers" onClick={() => this.props.returnAnswer(this.props.answers[1])}>{this.props.answers[1]}</button>
-          <button id="buttonsanswers" onClick={() => this.props.returnAnswer(this.props.answers[2])}>{this.props.answers[2]}</button>
-          <button id="buttonsanswers" onClick={() => this.props.returnAnswer(this.props.answers[3])}>{this.props.answers[3]}</button>
+          <button id="buttonsanswers" onClick={() => this.props.returnAnswer(this.props.answers[0])}>{answer0Display}</button>
+          <button id="buttonsanswers" onClick={() => this.props.returnAnswer(this.props.answers[1])}>{answer1Display}</button>
+          <button id="buttonsanswers" onClick={() => this.props.returnAnswer(this.props.answers[2])}>{answer2Display}</button>
+          <button id="buttonsanswers" onClick={() => this.props.returnAnswer(this.props.answers[3])}>{answer3Display}</button>
         </div>
       </div>
-      
-      
-    // <Container>
-    //   <Row>
-    //     <Col xs="6">
-    //       <Button
-    //         outline
-    //         color="primary"
-    //         size="lg"
-    //         onClick={() => this.props.returnAnswer(this.props.answers[0])}
-    //       >
-    //         {this.props.answers[0]}
-    //       </Button>
-    //     </Col>
-    //     <Col xs="6">
-    //       <Button
-    //         outline
-    //         color="warning"
-    //         size="lg"
-    //         onClick={() => this.props.returnAnswer(this.props.answers[1])}
-    //       >
-    //         {this.props.answers[1]}
-    //       </Button>
-    //     </Col>
-    //   </Row>
-    //   <Row>
-    //     <Col xs="6">
-    //       <Button
-    //         outline
-    //         color="success"
-    //         size="lg"
-    //         onClick={() => this.props.returnAnswer(this.props.answers[2])}
-    //       >
-    //         {this.props.answers[2]}
-    //       </Button>
-    //     </Col>
-    //     <Col xs="6">
-    //       <Button
-    //         outline
-    //         color="danger"
-    //         size="lg"
-    //         onClick={() => this.props.returnAnswer(this.props.answers[3])}
-    //       >
-    //         {this.props.answers[3]}
-    //       </Button>
-    //     </Col>
-    //   </Row>
-    // </Container>
     );
   }
 }
