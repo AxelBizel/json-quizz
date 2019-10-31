@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 const displayMovieStyle = {
     display: "flex",
     justifyContent: "space-around",

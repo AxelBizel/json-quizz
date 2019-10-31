@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Container, Row, Col, Button } from "reactstrap";
-// import { shuffle } from "./helpers"
 
 class QuestionScreen extends Component {
   constructor(props) {
