@@ -14,7 +14,7 @@ class App extends Component {
     this.state = {
       movie: {},
       questionsObject: {},
-      answer: true,
+      answer: false,
       showModal: true,
       count: 0,
       displayQuestion: false,
@@ -151,7 +151,7 @@ class App extends Component {
             questionsObject={this.state.questionsObject}
             wrongMovies={this.state.wrongMovies}
             returnAnswer={this.returnAnswer}
-            trueOrFalse={this.trueOrFalse}
+            // trueOrFalse={this.trueOrFalse}
           />
         )}
         <Count addPoints={this.addPoints} count={this.state.count} />
