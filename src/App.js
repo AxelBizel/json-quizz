@@ -14,15 +14,15 @@ class App extends Component {
     this.state = {
       movie: {},
       questionsObject: {},
-      answer: true,
+      answer: false,
+      answerClicked: false,
+      answers: [],
       showModal: true,
       count: 0,
       displayQuestion: false,
       displayAnswer: false,
       wrongMovies: [],
-      seconds: 10,
-      answerClicked: false,
-      answers: []
+      seconds: 10
     };
   }
 
@@ -55,7 +55,12 @@ class App extends Component {
     }
 
     if (answerClicked === true) {
-      this.goToQuestion();
+      this.setState({
+        displayAnswer: true,
+        displayQuestion: false,
+        answerClicked:false
+      });
+      clearInterval(this.interval);
     }
   };
 
@@ -89,27 +94,33 @@ class App extends Component {
     const questionsObject = [
       {
         question: `Who directed the movie ${movie.title}?`,
-        type: "director"
+        type: "director",
+        answer: movie.director
       },
       {
         question: `Which movie was directed by ${movie.director}?`,
-        type: "title"
+        type: "title",
+        answer: movie.title
       },
       {
         question: `Which year was the movie ${movie.title} released?`,
-        type: "year"
+        type: "year",
+        answer: movie.year
       },
       {
         question: `Which movie was made in ${movie.year}?`,
-        type: "title"
+        type: "title",
+        answer: movie.title
       },
       {
         question: `What movie was made in ${movie.country}?`,
-        type: "title"
+        type: "title",
+        answer: movie.title
       },
       {
         question: `What is the country of origin of the movie ${movie.title}?`,
-        type: "country"
+        type: "country",
+        answer: movie.country
       }
     ];
 
@@ -120,6 +131,14 @@ class App extends Component {
     if (this.state.answer === true) {
       this.setState({ count: this.state.count + 1 });
     }
+  };
+
+  returnAnswer = x => {
+    this.setState({
+      answerClicked: true,
+      returnedAnswer: x,
+      answer: this.state.questionsObject.answer === x
+    });
   };
 
   genAnswers = (movie, questionsObject) => {
@@ -160,6 +179,7 @@ class App extends Component {
             questionsObject={this.state.questionsObject}
             wrongMovies={this.state.wrongMovies}
             answers={this.state.answers}
+            returnAnswer={this.returnAnswer}
           />
         )}
         <Count addPoints={this.addPoints} count={this.state.count} />
