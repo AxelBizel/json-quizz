@@ -21,14 +21,15 @@ class App extends Component {
       displayAnswer: false,
       wrongMovies: [],
       seconds: 10,
-      answerClicked: false
+      answerClicked: false,
+      returnedAnswer: ""
     };
     console.log(this.state.displayQuestion);
     console.log(this.state.displayAnswer);
   }
 
   componentDidMount() {
-    this.getMovie();
+    this.getMovie();    
   }
 
   startGame = () => {
@@ -85,22 +86,27 @@ class App extends Component {
     const questionsObject = [
       {
         question: `Qui est le réalisateur du film ${movie.title} ?`,
+        answer: movie.director,
         type: "director"
       },
       {
         question: `Quel film a été réalisé par ${movie.director} ?`,
+        answer: movie.title,
         type: "title"
       },
       {
         question: `En quelle année le film ${movie.title} est-il sorti ?`,
+        answer: movie.year,
         type: "year"
       },
       {
         question: `Quel film a été réalisé en ${movie.year} ?`,
+        answer: movie.title,
         type: "title"
       },
       {
         question: `Quel film a été tourné dans ce pays : ${movie.country} ?`,
+        answer: movie.title,
         type: "title"
       }
     ];
@@ -114,7 +120,23 @@ class App extends Component {
     }
   };
 
+  returnAnswer = (x) => {
+      console.log("answer=",this.state.questionsObject.answer, "x=",x)
+      this.setState({
+        returnedAnswer: x,
+        answer: (this.state.questionsObject.answer === x)
+      });
+  }
+
+  // trueOrFalse = () => {
+  //   if (this.state.questionsObject.title != this.state.returnedAnswer)
+  //   this.setState({
+  //     answer: false
+  //   }); 
+  // }
+
   render() {
+    
     if (this.state.wrongMovies.length === 0) {
       return <div></div>;
     }
@@ -127,6 +149,8 @@ class App extends Component {
             movie={this.state.movie}
             questionsObject={this.state.questionsObject}
             wrongMovies={this.state.wrongMovies}
+            returnedAnswer={this.returnAnswer}
+            trueOrFalse={this.trueOrFalse}
           />
         )}
         <Count addPoints={this.addPoints} count={this.state.count} />
