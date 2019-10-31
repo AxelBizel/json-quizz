@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import './questionscreen.css'
 
 class Count extends Component {
 	constructor(props) {
@@ -9,10 +10,9 @@ class Count extends Component {
 
     render() {
         return (
-            <div>
+            <div id="countpoints">
                 <p>Score: {this.props.count}/20</p>
             </div>
-
         )
     }
 }
