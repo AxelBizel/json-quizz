@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import axios from "axios";
+import QuestionScreen from "./components/QuestionScreen";
 import AnswerScreen from "./components/AnswerScreen.js";
-import { randomOf } from "./components/helpers";
-import "./components/timer.css";
-import "./index";
+import { randomOf, shuffle } from "./components/helpers";
 import Start from "./components/Start.js";
 import Count from "./components/Count.js";
-import QuestionScreen from "./components/QuestionScreen";
+import "./components/timer.css";
+import "./index";
 
 class App extends Component {
   constructor(props) {
@@ -21,43 +21,39 @@ class App extends Component {
       displayAnswer: false,
       wrongMovies: [],
       seconds: 10,
-      answerClicked: false
+      answerClicked: false,
+      answers: []
     };
-    console.log(this.state.displayQuestion);
-    console.log(this.state.displayAnswer);
   }
 
   componentDidMount() {
-    this.getMovie();
+    this.startGame();
   }
 
   startGame = () => {
-    this.setState({showModal: false});
-    this.setState({seconds: 10})
+    this.setState({
+      showModal: false,
+      seconds: 10,
+      displayQuestion: true,
+      displayAnswer: false
+    });
     this.interval = setInterval(() => this.tick(), 1000);
-    this.setState({displayQuestion: true});
-    this.setState({displayAnswer: false});
     this.getMovie();
-  }
-
-  // goToQuestion = () => {
-  //   this.setState({displayQuestion: true});
-  //   this.setState({displayAnswer: false});
-  //   this.getMovie();
-  // }
-
-  // goToAnswer = () => {
-  //   this.setState({displayAnswer: true});
-  // }
+    // this.genAnswersArray();
+  };
 
   tick = () => {
     let { seconds, answerClicked } = this.state;
     this.setState({ seconds: seconds - 1 });
 
     if (seconds === 0) {
-      this.setState({ seconds: 0 });
-      this.setState({ displayAnswer: true });
-      this.setState({ displayQuestion: false });
+      this.setState({
+        seconds: 0,
+        displayAnswer: true,
+        displayQuestion: false
+      });
+      // this.setState({ displayAnswer: true });
+      // this.setState({ displayQuestion: false });
       clearInterval(this.interval);
     }
 
@@ -78,10 +74,17 @@ class App extends Component {
           response.data.movies[randomOf(response.data.movies.length)],
           response.data.movies[randomOf(response.data.movies.length)]
         );
+        console.log(wrongMoviesArray);
+        const questionsObject = this.getQuestion(selectedMovie);
         this.setState({
           movie: selectedMovie,
-          questionsObject: this.getQuestion(selectedMovie),
-          wrongMovies: wrongMoviesArray
+          questionsObject: questionsObject,
+          wrongMovies: wrongMoviesArray,
+          answers: this.genAnswersArray(
+            selectedMovie,
+            wrongMoviesArray,
+            questionsObject
+          )
         });
       });
   };
@@ -112,7 +115,6 @@ class App extends Component {
         question: `What is the country of origin of the movie ${movie.title}?`,
         type: "country"
       }
-
     ];
 
     return questionsObject[Math.floor(questionsObject.length * Math.random())];
@@ -124,6 +126,33 @@ class App extends Component {
     }
   };
 
+  genAnswers = (movie, questionsObject) => {
+    console.log("genaw", movie, questionsObject.type);
+    const type = questionsObject.type;
+    if (type === "title") {
+      return movie.title;
+    } else if (type === "year") {
+      return movie.year;
+    } else if (type === "director") {
+      return movie.director;
+    } else if (type === "director") {
+      return movie.director;
+    }
+  };
+
+  genAnswersArray = (movie, wrongMovies, questionsObject) => {
+    const answersArray = [];
+    answersArray.push(
+      this.genAnswers(movie, questionsObject),
+      this.genAnswers(wrongMovies[0], questionsObject),
+      this.genAnswers(wrongMovies[1], questionsObject),
+      this.genAnswers(wrongMovies[2], questionsObject)
+    );
+    console.log("answersArray", answersArray);
+    return shuffle(answersArray);
+    // this.setState({ answers: answersShuffled });
+  };
+
   render() {
     if (this.state.wrongMovies.length === 0) {
       return <div></div>;
@@ -132,19 +161,20 @@ class App extends Component {
       <div className="App">
         <Start show={this.state.showModal} startGame={this.startGame} />
         {this.state.displayQuestion && (
-          <QuestionScreen 
-          seconds={this.state.seconds} 
-          movie={this.state.movie} 
-          questionsObject={this.state.questionsObject}  
-          wrongMovies={this.state.wrongMovies}
-         />
+          <QuestionScreen
+            seconds={this.state.seconds}
+            movie={this.state.movie}
+            questionsObject={this.state.questionsObject}
+            wrongMovies={this.state.wrongMovies}
+            answers={this.state.answers}
+          />
         )}
-        <Count addPoints ={this.addPoints} count={this.state.count} />
+        <Count addPoints={this.addPoints} count={this.state.count} />
         {this.state.displayAnswer && (
           <AnswerScreen
-            startGame={this.startGame} 
-            movie={this.state.movie} 
-            answer={this.state.answer}  
+            startGame={this.startGame}
+            movie={this.state.movie}
+            answer={this.state.answer}
             displayQuestion={this.state.displayQuestion}
           />
         )}
