@@ -39,7 +39,6 @@ class App extends Component {
     });
     this.interval = setInterval(() => this.tick(), 1000);
     this.getMovie();
-    // this.genAnswersArray();
   };
 
   tick = () => {
@@ -52,8 +51,6 @@ class App extends Component {
         displayAnswer: true,
         displayQuestion: false
       });
-      // this.setState({ displayAnswer: true });
-      // this.setState({ displayQuestion: false });
       clearInterval(this.interval);
     }
 
@@ -74,7 +71,6 @@ class App extends Component {
           response.data.movies[randomOf(response.data.movies.length)],
           response.data.movies[randomOf(response.data.movies.length)]
         );
-        console.log(wrongMoviesArray);
         const questionsObject = this.getQuestion(selectedMovie);
         this.setState({
           movie: selectedMovie,
@@ -127,7 +123,6 @@ class App extends Component {
   };
 
   genAnswers = (movie, questionsObject) => {
-    console.log("genaw", movie, questionsObject.type);
     const type = questionsObject.type;
     if (type === "title") {
       return movie.title;
@@ -148,9 +143,7 @@ class App extends Component {
       this.genAnswers(wrongMovies[1], questionsObject),
       this.genAnswers(wrongMovies[2], questionsObject)
     );
-    console.log("answersArray", answersArray);
     return shuffle(answersArray);
-    // this.setState({ answers: answersShuffled });
   };
 
   render() {
