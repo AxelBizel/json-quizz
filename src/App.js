@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import axios from "axios";
+import QuestionScreen from "./components/QuestionScreen";
 import AnswerScreen from "./components/AnswerScreen.js";
-import { randomOf } from "./components/helpers";
-import "./components/timer.css";
-import "./index";
+import { randomOf, shuffle } from "./components/helpers";
 import Start from "./components/Start.js";
 import Count from "./components/Count.js";
-import QuestionScreen from "./components/QuestionScreen";
+import "./components/timer.css";
+import "./index";
+import EndModal from "./components/EndModal.js";
 
 class App extends Component {
   constructor(props) {
@@ -14,17 +15,18 @@ class App extends Component {
     this.state = {
       movie: {},
       questionsObject: {},
-      answer: true,
+      answer: false,
+      answerClicked: false,
+      answerClickedCount: 0,
+      answers: [],
       showModal: true,
       count: 0,
       displayQuestion: true,
       displayAnswer: true,
       wrongMovies: [],
       seconds: 10,
-      answerClicked: false
+      showModalEnd: false,
     };
-    console.log(this.state.displayQuestion);
-    console.log(this.state.displayAnswer);
   }
 
   componentDidMount() {
@@ -32,37 +34,45 @@ class App extends Component {
   }
 
   startGame = () => {
-    this.setState({showModal: false});
-    this.setState({seconds: 1 0})
+    this.setState({
+      showModal: false,
+      seconds: 10,
+      displayQuestion: true,
+      displayAnswer: false
+    });
     this.interval = setInterval(() => this.tick(), 1000);
-    this.setState({displayQuestion: true});
-    this.setState({displayAnswer: false});
     this.getMovie();
+  };
+
+  hideModal = () => {
+    this.setState({showModal: false});
   }
 
-  // goToQuestion = () => {
-  //   this.setState({displayQuestion: true});
-  //   this.setState({displayAnswer: false});
-  //   this.getMovie();
-  // }
-
-  // goToAnswer = () => {
-  //   this.setState({displayAnswer: true});
-  // }
+  startTimer = () => {
+    this.interval = setInterval(() => this.tick(), 1000);
+  }
 
   tick = () => {
     let { seconds, answerClicked } = this.state;
     this.setState({ seconds: seconds - 1 });
 
     if (seconds === 0) {
-      this.setState({ seconds: 0 });
-      this.setState({ displayAnswer: true });
-      this.setState({ displayQuestion: false });
+      this.setState({
+        seconds: 0,
+        displayAnswer: true,
+        displayQuestion: false
+      });
       clearInterval(this.interval);
     }
 
     if (answerClicked === true) {
-      this.goToQuestion();
+      this.setState({
+        displayAnswer: true,
+        displayQuestion: false,
+        answerClicked:false
+      });
+      this.addPoints();
+      clearInterval(this.interval);
     }
   };
 
@@ -78,10 +88,16 @@ class App extends Component {
           response.data.movies[randomOf(response.data.movies.length)],
           response.data.movies[randomOf(response.data.movies.length)]
         );
+        const questionsObject = this.getQuestion(selectedMovie);
         this.setState({
           movie: selectedMovie,
-          questionsObject: this.getQuestion(selectedMovie),
-          wrongMovies: wrongMoviesArray
+          questionsObject: questionsObject,
+          wrongMovies: wrongMoviesArray,
+          answers: this.genAnswersArray(
+            selectedMovie,
+            wrongMoviesArray,
+            questionsObject
+          )
         });
       });
   };
@@ -90,29 +106,34 @@ class App extends Component {
     const questionsObject = [
       {
         question: `Who directed the movie ${movie.title}?`,
-        type: "director"
+        type: "director",
+        answer: movie.director
       },
       {
         question: `Which movie was directed by ${movie.director}?`,
-        type: "title"
+        type: "title",
+        answer: movie.title
       },
       {
         question: `Which year was the movie ${movie.title} released?`,
-        type: "year"
+        type: "year",
+        answer: movie.year
       },
       {
         question: `Which movie was made in ${movie.year}?`,
-        type: "title"
+        type: "title",
+        answer: movie.title
       },
       {
         question: `What movie was made in ${movie.country}?`,
-        type: "title"
+        type: "title",
+        answer: movie.title
       },
       {
         question: `What is the country of origin of the movie ${movie.title}?`,
-        type: "country"
+        type: "country",
+        answer: movie.country
       }
-
     ];
 
     return questionsObject[Math.floor(questionsObject.length * Math.random())];
@@ -124,6 +145,52 @@ class App extends Component {
     }
   };
 
+  showModalEnd = () => {
+    if (this.state.answerClickedCount=== 20) {
+      this.setState({
+        showModalEnd: true,
+        displayAnswer: false,
+        displayQuestion: false,
+      })
+      console.log(this.state.showModalEnd)
+    }
+  }
+
+  returnAnswer = x => {
+    this.setState({
+      answerClicked: true,
+      returnedAnswer: x,
+      answer: this.state.questionsObject.answer === x,
+      answerClickedCount: this.state.answerClickedCount +1,
+      
+    });
+    console.log(this.state.answerClickedCount)
+  };
+
+  genAnswers = (movie, questionsObject) => {
+    const type = questionsObject.type;
+    if (type === "title") {
+      return movie.title;
+    } else if (type === "year") {
+      return movie.year;
+    } else if (type === "director") {
+      return movie.director;
+    } else if (type === "country") {
+      return movie.country;
+    }
+  };
+
+  genAnswersArray = (movie, wrongMovies, questionsObject) => {
+    const answersArray = [];
+    answersArray.push(
+      this.genAnswers(movie, questionsObject),
+      this.genAnswers(wrongMovies[0], questionsObject),
+      this.genAnswers(wrongMovies[1], questionsObject),
+      this.genAnswers(wrongMovies[2], questionsObject)
+    );
+    return shuffle(answersArray);
+  };
+
   render() {
     if (this.state.wrongMovies.length === 0) {
       return <div></div>;
@@ -133,24 +200,28 @@ class App extends Component {
         <Start show={this.state.showModal} startGame={this.startGame} />
         <Count addPoints ={this.addPoints} count={this.state.count} />
         {this.state.displayQuestion && (
-          <QuestionScreen 
-          addPoints={this.addPoints}
-          seconds={this.state.seconds} 
-          movie={this.state.movie} 
-          questionsObject={this.state.questionsObject}  
-          wrongMovies={this.state.wrongMovies}
-         />
+          <QuestionScreen
+            seconds={this.state.seconds}
+            movie={this.state.movie}
+            questionsObject={this.state.questionsObject}
+            wrongMovies={this.state.wrongMovies}
+            answers={this.state.answers}
+            returnAnswer={this.returnAnswer}
+          />
         )}
         {this.state.displayAnswer && (
           <AnswerScreen
-            startGame={this.startGame} 
-            movie={this.state.movie} 
-            answer={this.state.answer}  
+            startGame={this.startGame}
+            movie={this.state.movie}
+            answer={this.state.answer}
             displayQuestion={this.state.displayQuestion}
+            rightAnswer= {this.state.questionsObject.answer}
+            startTimer={this.startTimer}
+            getMovie={this.getMovie}
+            showModalEnd={this.showModalEnd}
           />
         )}
-
-        <Start show={this.state.showModal} startGame={this.startGame} />
+        {this.state.showModalEnd && (<EndModal count={this.state.count} />)}
       </div>
     );
   }

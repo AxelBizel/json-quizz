@@ -28,6 +28,7 @@
     margin: 40px 40px;
     width: 40%;
     transition: all 0.4s ease;
+    
 }
 
 #buttonsanswers:hover  {
@@ -43,6 +44,7 @@
     border: 1px solid rgba(255, 0, 0, 0);
     margin: 40px 40px;
     width: 40%;
+    outline: none;
 }
 
 #countpoints {
@@ -58,5 +60,5 @@
 .DisplayQuestion {
     margin: 0px 0px;
     padding: 40px;
-    background: rgba(0, 0, 0, 0.281);
+    background: rgba(0, 0, 0, 0);
 }

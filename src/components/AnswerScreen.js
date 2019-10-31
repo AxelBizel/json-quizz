@@ -2,10 +2,10 @@ import React from 'react';
 import './answersscreen.css'
 
 
-function AnswerScreen({movie, answer, startGame}) {
+function AnswerScreen({movie, answer, startGame, rightAnswer, showModalEnd}) {
     return (
         <div id="answerscreen">
-            <div id="congrat">{answer ? <h1>YOU GOT IT!</h1> : <h1>SORRY, THE ANSWER WAS</h1>}</div>
+            <div id="congrat">{answer ? <h1>Good job, you got the right answer!</h1> : <h1>Sorry, the answer was {rightAnswer}.</h1>}</div>
             <div className="DisplayMovie">
                     <div className="MovieInfo">
                         <p>Title: {movie.title}</p>
@@ -15,7 +15,7 @@ function AnswerScreen({movie, answer, startGame}) {
                     </div>
                 <div className="MoviePoster"><img src={movie.posterUrl} alt="MoviePoster"/></div>
             </div>
-            <button id="buttonnext">NEXT QUESTION</button>
+            <button id="buttonnext" onClick={() => {startGame(); showModalEnd()}}>NEXT QUESTION</button>
         </div>
     )
 }
